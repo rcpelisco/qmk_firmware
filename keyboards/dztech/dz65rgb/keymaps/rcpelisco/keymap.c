@@ -17,10 +17,10 @@ typedef struct {
 } td_tap_t;
 
 enum dz65rgb_layers {
-    _OFF,
+  _OFF,
 	_BASE,
 	_FN,
-    _SYS,
+  _SYS,
 	_MACRO
 };
 
