@@ -42,8 +42,26 @@ static HSV base_effect_math(HSV hsv, uint8_t i, uint8_t time) {
         BASE_EFFECT_NOT_STARTED_YET = false;
     }
 
+    // end animation
     if (base_effect_startup_counter >= 255) {
-        hsv.v = 0;
+        switch (i) {
+
+            case 57: 
+                hsv.h = 148;
+                break;
+            case 43: 
+                hsv.h = 160;
+                break;
+            case 29:
+                hsv.h = 222;
+                break;
+            case 14:
+                hsv.h = 255;
+                break;
+            default:
+                hsv.v = 0;
+                break;
+        }
         return hsv;
     }
 
@@ -200,22 +218,30 @@ static HSV sys_indicator_math(HSV hsv, uint8_t i, uint8_t time) {
         case 29: 
             hsv.h = 222;
             break;
-        
-        // reset (for flashing)
-        // case 28:
-        //     hsv.s = 0;
-        //     if (time < 16) {
-        //         hsv.v = 255 - time * 128 / 16;
-        //     } else {
-        //         hsv.v = 127;
-        //     }
-        //     break;
+        // QK_BOOT
+        case 13:
+            hsv.s = 0;
+            if (time < 16) {
+                hsv.v = 255 - time * 128 / 16;
+            } else {
+                hsv.v = 127;
+            }
+            break;
+        // QK_RBT
+        case 28:
+            hsv.s = 0;
+            if (time < 16) {
+                hsv.v = 255 - time * 128 / 16;
+            } else {
+                hsv.v = 127;
+            }
+            break;
 
-        // reset (reinitialize EEPROM)
-        // case 42:
-        //     hsv.s = 0;
-        //     hsv.v = 127;
-        //     break;
+        // EE_CLR (reinitialize EEPROM)
+        case 42:
+            hsv.s = 0;
+            hsv.v = 127;
+            break;
 
         default:
             hsv.v = 0;
