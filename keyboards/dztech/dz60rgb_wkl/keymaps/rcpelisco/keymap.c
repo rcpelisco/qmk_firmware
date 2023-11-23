@@ -16,29 +16,36 @@
 
 #include QMK_KEYBOARD_H
 
+enum dz60rgb_wkl_layers {
+    _BASE,
+    _MO1,
+    _MO2,
+    _MO3,
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [0] = LAYOUT_60_tsangan_hhkb(
+    [_BASE] = LAYOUT_60_tsangan_hhkb(
         QK_GESC, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSLS, KC_GRV,
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSPC,
         KC_RCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_ENT,
         SC_LSPO,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SC_RSPC, MO(1),
         _______, KC_LALT, KC_LGUI,                            KC_SPC,                                      KC_RGUI, KC_RALT, _______
     ),
-    [1] = LAYOUT_60_tsangan_hhkb(
+    [_MO1] = LAYOUT_60_tsangan_hhkb(
         KC_PWR,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  KC_DEL,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PSCR, KC_UP,   _______, _______,
         _______, KC_VOLD, KC_VOLU, KC_MUTE, _______, _______, _______, _______, KC_HOME, KC_PGUP, KC_LEFT, KC_RGHT, _______,
         _______,          _______, _______, _______, _______, _______, _______, _______, KC_END,  KC_PGDN, KC_DOWN, _______, _______,
         _______, _______, _______,                            _______,                                     MO(2),   _______, _______
     ),
-    [2] = LAYOUT_60_tsangan_hhkb(
+    [_MO2] = LAYOUT_60_tsangan_hhkb(
         _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,  KC_DEL,  _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, QK_BOOT,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______,                            _______,                                     _______, _______, _______
     ),
-    [3] = LAYOUT_60_tsangan_hhkb(
+    [_MO3] = LAYOUT_60_tsangan_hhkb(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -46,3 +53,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______,                            _______,                                     _______, _______, _______
     )
 };
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+        case _BASE:
+            rgb_matrix_mode(RGB_MATRIX_CUSTOM_base_effect);
+            break;
+        case _MO1:
+            rgb_matrix_mode(RGB_MATRIX_CUSTOM_mo1_indicator);
+            break;
+        case _MO2:
+            rgb_matrix_mode(RGB_MATRIX_CUSTOM_mo2_indicator);
+            break;
+        case _MO3:
+            rgb_matrix_mode(RGB_MATRIX_CUSTOM_kitt_effect);
+            break;
+    }
+    return state;
+}
